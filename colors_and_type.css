@@ -1,0 +1,514 @@
+/* =====================================================================
+   Camprise — Colors & Type
+   Source of truth: TweakCN export (cmpg0pc5a000004k17jn07ubw, May 2026).
+   Drop this file into any project and pull tokens via `--cp-*` vars.
+   Or use the semantic classes (.cp-h1, .cp-text-rg, etc.) directly.
+
+   Layered approach:
+     1. shadcn-semantic tokens  (--background, --primary, --accent, …)
+        — straight from TweakCN, support .dark via class toggle
+     2. brand anchors           (--cp-night, --cp-golden, --cp-coral, …)
+        — names preserved; values aligned with TweakCN
+     3. brand-only tokens       (gradients, patterns, motion, custom marks)
+        — preserved from the original system (not in TweakCN)
+   ===================================================================== */
+
+/* Roboto Mono — Google CDN.
+   @import must come BEFORE any @font-face / rule blocks, per CSS spec.
+   Icons are Lucide (SVG) — loaded as a <script> tag at end of body, not here. */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+
+/* --- Webfonts ---
+   Poppins + Lato shipped as local TTFs in ./fonts/. Paths are relative to
+   this CSS file, so they resolve from any directory. */
+
+/* Poppins — display */
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 100; font-display: swap; src: url("./fonts/Poppins-Thin.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 100; font-display: swap; src: url("./fonts/Poppins-ThinItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 200; font-display: swap; src: url("./fonts/Poppins-ExtraLight.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 200; font-display: swap; src: url("./fonts/Poppins-ExtraLightItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 300; font-display: swap; src: url("./fonts/Poppins-Light.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 300; font-display: swap; src: url("./fonts/Poppins-LightItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 400; font-display: swap; src: url("./fonts/Poppins-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 400; font-display: swap; src: url("./fonts/Poppins-Italic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 500; font-display: swap; src: url("./fonts/Poppins-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 500; font-display: swap; src: url("./fonts/Poppins-MediumItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 600; font-display: swap; src: url("./fonts/Poppins-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 600; font-display: swap; src: url("./fonts/Poppins-SemiBoldItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 700; font-display: swap; src: url("./fonts/Poppins-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 700; font-display: swap; src: url("./fonts/Poppins-BoldItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 800; font-display: swap; src: url("./fonts/Poppins-ExtraBold.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 800; font-display: swap; src: url("./fonts/Poppins-ExtraBoldItalic.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 900; font-display: swap; src: url("./fonts/Poppins-Black.ttf") format("truetype"); }
+@font-face { font-family: "Poppins"; font-style: italic; font-weight: 900; font-display: swap; src: url("./fonts/Poppins-BlackItalic.ttf") format("truetype"); }
+
+/* Lato — body */
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 100; font-display: swap; src: url("./fonts/Lato-Thin.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: italic; font-weight: 100; font-display: swap; src: url("./fonts/Lato-ThinItalic.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 300; font-display: swap; src: url("./fonts/Lato-Light.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: italic; font-weight: 300; font-display: swap; src: url("./fonts/Lato-LightItalic.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 400; font-display: swap; src: url("./fonts/Lato-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: italic; font-weight: 400; font-display: swap; src: url("./fonts/Lato-Italic.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 700; font-display: swap; src: url("./fonts/Lato-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: italic; font-weight: 700; font-display: swap; src: url("./fonts/Lato-BoldItalic.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: normal; font-weight: 900; font-display: swap; src: url("./fonts/Lato-Black.ttf") format("truetype"); }
+@font-face { font-family: "Lato"; font-style: italic; font-weight: 900; font-display: swap; src: url("./fonts/Lato-BlackItalic.ttf") format("truetype"); }
+
+/* Note: Lato ships at 300/400/700/900 only — no 500/600. Raw font-weight
+   500/600 falls back to 400/700. Poppins is complete (100–900). */
+
+:root {
+  /* =================================================================
+     1 · SHADCN-SEMANTIC TOKENS  (TweakCN — light)
+     Verbatim from the export. These power any shadcn-styled component.
+     ================================================================= */
+  --background:           oklch(0.9890 0.0114 84.5778);
+  --foreground:           oklch(0.2275 0.0376 263.4117);
+  --card:                 oklch(0.9997 0.0013 106.4229);
+  --card-foreground:      oklch(0.3285 0.1030 263.6237);
+  --popover:              oklch(1.0000 0 0);
+  --popover-foreground:   oklch(0.2275 0.0376 263.4117);
+  --primary:              oklch(0.3285 0.1030 263.6237);
+  --primary-foreground:   oklch(1.0000 0 0);
+  --secondary:            oklch(0.9076 0.0882 80.7978);
+  --secondary-foreground: oklch(0.2275 0.0376 263.4117);
+  --muted:                oklch(1.0000 0 0);
+  --muted-foreground:     oklch(0.3285 0.1030 263.6237);
+  --accent:               oklch(0.8016 0.0524 266.9172);
+  --accent-foreground:    oklch(0.2275 0.0376 263.4117);
+  --destructive:          oklch(0.4126 0.1547 30.4978);
+  --destructive-foreground: oklch(1.0000 0 0);
+  --border:               oklch(0.9338 0.0029 264.5415);
+  --input:                oklch(0.8016 0.0524 266.9172);
+  --ring:                 oklch(0.4812 0.1667 261.2610);
+
+  --chart-1: oklch(0.9462 0.0042 271.3683);
+  --chart-2: oklch(0.8562 0.0268 264.4238);
+  --chart-3: oklch(0.6404 0.1235 261.9526);
+  --chart-4: oklch(0.4812 0.1667 261.2610);
+  --chart-5: oklch(0.3082 0.0746 259.9045);
+
+  --sidebar:                       oklch(0.9890 0.0114 84.5778);
+  --sidebar-foreground:            oklch(0.2275 0.0376 263.4117);
+  --sidebar-primary:               oklch(0.3285 0.1030 263.6237);
+  --sidebar-primary-foreground:    oklch(1.0000 0 0);
+  --sidebar-accent:                oklch(0.8016 0.0524 266.9172);
+  --sidebar-accent-foreground:     oklch(0.2275 0.0376 263.4117);
+  --sidebar-border:                oklch(0.9338 0.0029 264.5415);
+  --sidebar-ring:                  oklch(0.4812 0.1667 261.2610);
+
+  --radius: 0.25rem;             /* 4px — the base radius */
+
+  /* Offset drop-shadow stack — distinctive of this theme.
+     Shadow tint is warm (hsl 28 13% 20%), not blue. */
+  --shadow-x: 2px;
+  --shadow-y: 3px;
+  --shadow-blur: 5px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.12;
+  --shadow-color: hsl(28 13% 20%);
+  --shadow-2xs: 2px 3px 5px 0px hsl(28 13% 20% / 0.06);
+  --shadow-xs:  2px 3px 5px 0px hsl(28 13% 20% / 0.06);
+  --shadow-sm:  2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 1px 2px -1px hsl(28 13% 20% / 0.12);
+  --shadow:     2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 1px 2px -1px hsl(28 13% 20% / 0.12);
+  --shadow-md:  2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 2px 4px -1px hsl(28 13% 20% / 0.12);
+  --shadow-lg:  2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 4px 6px -1px hsl(28 13% 20% / 0.12);
+  --shadow-xl:  2px 3px 5px 0px hsl(28 13% 20% / 0.12), 2px 8px 10px -1px hsl(28 13% 20% / 0.12);
+  --shadow-2xl: 2px 3px 5px 0px hsl(28 13% 20% / 0.30);
+
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;             /* base 4px spacing unit */
+
+  --font-sans:  Poppins, ui-sans-serif, sans-serif, system-ui;
+  --font-serif: Lato, ui-sans-serif, sans-serif, system-ui;  /* TweakCN aliases body here */
+  --font-mono:  "Roboto Mono", ui-monospace, monospace;
+
+  /* =================================================================
+     2 · BRAND ANCHORS  (--cp-* aliases over shadcn tokens)
+     Names preserved from prior system; values now sourced from TweakCN.
+     ================================================================= */
+  --cp-night:        var(--primary);     /* deep navy — primary surfaces / text */
+  --cp-cream:        var(--background);  /* warm canvas — light-mode background */
+  --cp-paper:        var(--popover);     /* pure white — cards, popovers */
+  --cp-mist:         var(--border);      /* pale neutral — dividers */
+  --cp-golden:       var(--secondary);   /* warm gold — secondary surfaces, highlights */
+  --cp-periwinkle:   var(--accent);      /* NEW — light periwinkle — accent surfaces */
+  --cp-sky:          var(--ring);        /* bold blue — focus rings, links */
+  --cp-coral:        var(--destructive); /* burnt coral — destructive ONLY */
+
+  /* Night ramp (chart-1 → chart-5 = light → dark navy) — for charts & scale */
+  --cp-night-50:   var(--chart-1);
+  --cp-night-100:  oklch(0.9462 0.0042 271.3683 / 0.6);
+  --cp-night-200:  var(--chart-2);
+  --cp-night-300:  oklch(0.7400 0.0700 263);
+  --cp-night-400:  var(--chart-3);
+  --cp-night-500:  var(--chart-4);
+  --cp-night-600:  oklch(0.4000 0.0900 261);
+  --cp-night-700:  var(--chart-5);
+  --cp-night-800:  oklch(0.2700 0.0500 263);
+  --cp-night-900:  var(--foreground);
+
+  /* Sky scale — clusters around --ring */
+  --cp-sky-50:   oklch(0.9700 0.0150 263);
+  --cp-sky-100:  oklch(0.9300 0.0300 263);
+  --cp-sky-200:  oklch(0.8800 0.0500 263);
+  --cp-sky-300:  oklch(0.8000 0.0700 263);
+  --cp-sky-400:  oklch(0.7000 0.1000 263);
+  --cp-sky-500:  oklch(0.5900 0.1400 263);
+  --cp-sky-600:  oklch(0.5300 0.1600 263);
+  --cp-sky-700:  var(--ring);
+  --cp-sky-800:  oklch(0.4200 0.1500 263);
+  --cp-sky-900:  oklch(0.3500 0.1200 263);
+
+  /* Mist (pale neutral) — for backgrounds, recessed surfaces */
+  --cp-mist-50:   oklch(0.9780 0.0020 264);
+  --cp-mist-100:  oklch(0.9600 0.0025 264);
+  --cp-mist-200:  oklch(0.9338 0.0029 264.5415);
+  --cp-mist-300:  oklch(0.9000 0.0040 264);
+  --cp-mist-400:  oklch(0.8500 0.0080 264);
+  --cp-mist-500:  oklch(0.8016 0.0524 266.9172);  /* = accent */
+  --cp-mist-600:  oklch(0.7000 0.0500 266);
+  --cp-mist-700:  oklch(0.5500 0.0500 266);
+
+  /* Golden scale — clusters around --secondary */
+  --cp-golden-50:  oklch(0.9830 0.0230 82);
+  --cp-golden-100: oklch(0.9660 0.0450 82);
+  --cp-golden-200: oklch(0.9450 0.0680 82);
+  --cp-golden-300: oklch(0.9260 0.0800 82);
+  --cp-golden-400: oklch(0.9170 0.0860 81);
+  --cp-golden-500: var(--secondary);             /* anchor */
+  --cp-golden-600: oklch(0.8500 0.1100 75);
+  --cp-golden-700: oklch(0.7400 0.1300 68);
+  --cp-golden-800: oklch(0.5800 0.1200 60);
+  --cp-golden-900: oklch(0.4400 0.1000 55);
+
+  /* Coral scale — burnt/destructive ramp */
+  --cp-coral-50:  oklch(0.9540 0.0250 30);
+  --cp-coral-100: oklch(0.9000 0.0500 30);
+  --cp-coral-200: oklch(0.8200 0.0800 30);
+  --cp-coral-300: oklch(0.7200 0.1100 30);
+  --cp-coral-400: oklch(0.6000 0.1400 30);
+  --cp-coral-500: oklch(0.5000 0.1550 30);
+  --cp-coral-600: var(--destructive);            /* anchor */
+  --cp-coral-700: oklch(0.3500 0.1400 30);
+  --cp-coral-800: oklch(0.2800 0.1100 30);
+  --cp-coral-900: oklch(0.2000 0.0800 30);
+
+  /* Periwinkle scale (new) — pale-blue accent */
+  --cp-periwinkle-50:  oklch(0.9700 0.0150 267);
+  --cp-periwinkle-100: oklch(0.9400 0.0250 267);
+  --cp-periwinkle-200: oklch(0.8900 0.0380 267);
+  --cp-periwinkle-300: oklch(0.8450 0.0470 267);
+  --cp-periwinkle-400: oklch(0.8200 0.0510 267);
+  --cp-periwinkle-500: var(--accent);            /* anchor */
+  --cp-periwinkle-600: oklch(0.7300 0.0700 267);
+  --cp-periwinkle-700: oklch(0.6300 0.0900 267);
+  --cp-periwinkle-800: oklch(0.5000 0.1100 267);
+  --cp-periwinkle-900: oklch(0.3800 0.1200 267);
+
+  /* =================================================================
+     3 · SEMANTIC FG / BG / LINE
+     ================================================================= */
+  --cp-fg-1:         var(--foreground);          /* primary text */
+  --cp-fg-2:         var(--card-foreground);     /* secondary text — slightly lighter */
+  --cp-fg-3:         var(--cp-night-500);        /* tertiary / meta */
+  --cp-fg-disabled:  var(--cp-mist-500);
+  --cp-fg-on-dark:   oklch(1 0 0);
+  --cp-fg-on-dark-2: oklch(1 0 0 / 0.72);
+  --cp-fg-on-dark-3: oklch(1 0 0 / 0.48);
+
+  --cp-bg-canvas:        var(--background);        /* warm cream */
+  --cp-bg-canvas-dark:   var(--foreground);        /* deep navy (dark mode canvas) */
+  --cp-bg-surface:       var(--card);              /* near-white card */
+  --cp-bg-surface-2:     var(--cp-mist-100);
+  --cp-bg-surface-dark:  oklch(0.3000 0.0500 263);
+  --cp-bg-surface-dark-2:oklch(0.3400 0.0700 263);
+  --cp-bg-tint:          var(--cp-mist-200);
+
+  --cp-line-1:        var(--border);
+  --cp-line-2:        oklch(0.8800 0.0080 264);
+  --cp-line-on-dark:  oklch(1 0 0 / 0.12);
+  --cp-line-on-dark-2:oklch(1 0 0 / 0.24);
+
+  /* =================================================================
+     4 · BRAND ACTIONS & STATES
+     ================================================================= */
+  /* Primary CTA is now Night (--primary). Coral is destructive-only. */
+  --cp-action:        var(--primary);
+  --cp-action-hover:  var(--cp-night-600);
+  --cp-action-press:  var(--cp-night-800);
+  --cp-action-fg:     var(--primary-foreground);
+
+  --cp-link:          var(--ring);
+  --cp-link-hover:    var(--cp-sky-800);
+  --cp-focus-ring:    oklch(0.4812 0.1667 261.2610 / 0.40);
+  --cp-focus-ring-on-dark: oklch(0.9076 0.0882 80.7978 / 0.50);
+
+  --cp-status-info:    var(--ring);
+  --cp-status-success: oklch(0.5800 0.1300 155);
+  --cp-status-warn:    var(--cp-golden-700);
+  --cp-status-error:   var(--destructive);
+  --cp-status-running: var(--secondary);  /* Golden — Camprise's "live" tone */
+
+  /* =================================================================
+     5 · GRADIENTS  (preserved — not in TweakCN)
+     ================================================================= */
+  --cp-gradient-arc:
+    linear-gradient(
+      to bottom right,
+      #183169 0%,
+      #303565 3%,
+      #864557 16%,
+      #C6514E 27%,
+      #ED5848 34%,
+      #FC5B46 38%,
+      #FC764D 44%,
+      #FDA159 56%,
+      #FEBC60 64%,
+      #FFC663 69%,
+      #FAC56A 74%,
+      #EDC47E 80%,
+      #D8C2A0 88%,
+      #BBBFCE 97%,
+      #AFBEE1 100%
+    );
+  --cp-gradient-sunrise: linear-gradient(135deg, #FC5B46 0%, #FFC663 100%);
+  --cp-gradient-deep:    linear-gradient(135deg, #132754 0%, #2157BA 100%);
+  --cp-gradient-soft:    linear-gradient(135deg, #FFC663 0%, #C7D1EA 100%);
+
+  /* =================================================================
+     6 · PATTERNS  (preserved)
+     ================================================================= */
+  --cp-pattern-sunrise-bars:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 24px,
+      rgba(255, 255, 255, 0.08) 24px 28px
+    ),
+    linear-gradient(to top, #FC5B46 0%, #FFC663 60%, #FFFFFF 100%);
+
+  /* =================================================================
+     7 · TYPOGRAPHY
+     ================================================================= */
+  --cp-font-display: var(--font-sans);
+  --cp-font-body:    "Lato", "Helvetica Neue", Arial, sans-serif;
+  --cp-font-mono:    var(--font-mono);
+
+  /* Headings — desktop scale (Poppins) */
+  --cp-h1-size: 84px;  --cp-h1-lh: 1.10;
+  --cp-h2-size: 60px;  --cp-h2-lh: 1.20;
+  --cp-h3-size: 48px;  --cp-h3-lh: 1.20;
+  --cp-h4-size: 40px;  --cp-h4-lh: 1.30;
+  --cp-h5-size: 32px;  --cp-h5-lh: 1.30;
+  --cp-h6-size: 26px;  --cp-h6-lh: 1.40;
+
+  /* Body sizes (Lato) — line height 150% across the family */
+  --cp-text-lg-size: 26px;
+  --cp-text-md-size: 20px;
+  --cp-text-rg-size: 18px;
+  --cp-text-sm-size: 16px;
+  --cp-text-xs-size: 14px;
+  --cp-text-lh: 1.50;
+
+  --cp-tagline-size: 16px;
+  --cp-tagline-tracking: 0.04em;
+
+  --cp-w-light: 300;
+  --cp-w-normal: 400;
+  --cp-w-medium: 500;
+  --cp-w-semibold: 600;
+  --cp-w-bold: 700;
+  --cp-w-extrabold: 800;
+
+  /* =================================================================
+     8 · SPACING / RADII / SHADOWS / MOTION
+     Radii & shadows aligned with TweakCN. Spacing & motion preserved.
+     ================================================================= */
+  --cp-space-0:  0;
+  --cp-space-1:  4px;
+  --cp-space-2:  8px;
+  --cp-space-3:  12px;
+  --cp-space-4:  16px;
+  --cp-space-5:  20px;
+  --cp-space-6:  24px;
+  --cp-space-8:  32px;
+  --cp-space-10: 40px;
+  --cp-space-12: 48px;
+  --cp-space-16: 64px;
+  --cp-space-20: 80px;
+  --cp-space-24: 96px;
+
+  /* Radii — TweakCN scale: 0 / 2 / 4 / 8 px, plus extension steps for the brand */
+  --cp-radius-none: 0;
+  --cp-radius-sm:   calc(var(--radius) - 4px);   /* 0px  — flush cells, table rows */
+  --cp-radius-md:   calc(var(--radius) - 2px);   /* 2px  — chips, dense controls   */
+  --cp-radius-lg:   var(--radius);               /* 4px  — DEFAULT (inputs, btns)  */
+  --cp-radius-xl:   calc(var(--radius) + 4px);   /* 8px  — cards, sheets           */
+  --cp-radius-2xl:  calc(var(--radius) + 8px);   /* 12px — hero, large surfaces    */
+  --cp-radius-pill: 9999px;
+  /* legacy alias: --cp-radius-xs was 4px; keep it pointing at default lg */
+  --cp-radius-xs:   var(--cp-radius-lg);
+
+  /* Shadows — offset drop-shadow stack (TweakCN). */
+  --cp-shadow-2xs: var(--shadow-2xs);
+  --cp-shadow-xs:  var(--shadow-xs);
+  --cp-shadow-sm:  var(--shadow-sm);
+  --cp-shadow:     var(--shadow);
+  --cp-shadow-md:  var(--shadow-md);
+  --cp-shadow-lg:  var(--shadow-lg);
+  --cp-shadow-xl:  var(--shadow-xl);
+  --cp-shadow-2xl: var(--shadow-2xl);
+  /* legacy aliases — keep prior cp-shadow-1/2/3 names working */
+  --cp-shadow-1:   var(--shadow-sm);
+  --cp-shadow-2:   var(--shadow-md);
+  --cp-shadow-3:   var(--shadow-lg);
+  --cp-shadow-glow-golden: 0 0 0 4px oklch(0.9076 0.0882 80.7978 / 0.32);
+  --cp-shadow-glow-sky:    0 0 0 4px oklch(0.4812 0.1667 261.2610 / 0.30);
+
+  --cp-ease:   cubic-bezier(0.2, 0.8, 0.2, 1);
+  --cp-dur-1:  160ms;
+  --cp-dur-2:  240ms;
+  --cp-dur-3:  360ms;
+}
+
+/* =====================================================================
+   DARK MODE  — toggled by adding .dark to <html> or any ancestor.
+   Verbatim from TweakCN export.
+   ===================================================================== */
+.dark {
+  --background:           oklch(0.2275 0.0376 263.4117);
+  --foreground:           oklch(1.0000 0 0);
+  --card:                 oklch(0.3285 0.1030 263.6237);
+  --card-foreground:      oklch(1.0000 0 0);
+  --popover:              oklch(0.2275 0.0376 263.4117);
+  --popover-foreground:   oklch(1.0000 0 0);
+  --primary:              oklch(0.8562 0.0268 264.4238);
+  --primary-foreground:   oklch(0.2275 0.0376 263.4117);
+  --secondary:            oklch(0.9076 0.0882 80.7978);
+  --secondary-foreground: oklch(0.2275 0.0376 263.4117);
+  --muted:                oklch(0.3285 0.1030 263.6237);
+  --muted-foreground:     oklch(0.9239 0.0190 83.0636);
+  --accent:               oklch(0.4812 0.1667 261.2610);
+  --accent-foreground:    oklch(0.8562 0.0268 264.4238);
+  --destructive:          oklch(0.4126 0.1547 30.4978);
+  --destructive-foreground: oklch(1.0000 0 0);
+  --border:               oklch(0.2275 0.0376 263.4117);
+  --input:                oklch(0.8016 0.0524 266.9172);
+  --ring:                 oklch(0.9338 0.0029 264.5415);
+  --chart-1: oklch(0.9462 0.0042 271.3683);
+  --chart-2: oklch(0.8562 0.0268 264.4238);
+  --chart-3: oklch(0.6404 0.1235 261.9526);
+  --chart-4: oklch(0.4812 0.1667 261.2610);
+  --chart-5: oklch(0.2275 0.0376 263.4117);
+  --sidebar:                       oklch(0.2275 0.0376 263.4117);
+  --sidebar-foreground:            oklch(1.0000 0 0);
+  --sidebar-primary:               oklch(0.8562 0.0268 264.4238);
+  --sidebar-primary-foreground:    oklch(0.2275 0.0376 263.4117);
+  --sidebar-accent:                oklch(0.4812 0.1667 261.2610);
+  --sidebar-accent-foreground:     oklch(0.8562 0.0268 264.4238);
+  --sidebar-border:                oklch(0.2275 0.0376 263.4117);
+  --sidebar-ring:                  oklch(0.9338 0.0029 264.5415);
+
+  /* On dark canvas, "Night" semantically inverts to the light blue */
+  --cp-night:        var(--primary);
+  --cp-cream:        var(--background);
+  --cp-action:       var(--secondary);            /* CTA = Golden on dark */
+  --cp-action-hover: oklch(0.8800 0.1100 81);
+  --cp-action-press: oklch(0.7800 0.0900 80);
+  --cp-action-fg:    var(--secondary-foreground);
+  --cp-link:         var(--cp-night-200);
+  --cp-link-hover:   oklch(1 0 0);
+}
+
+/* Responsive heading sizes — mobile (≤640px) */
+@media (max-width: 640px) {
+  :root {
+    --cp-h1-size: 48px;  --cp-h1-lh: 1.20;
+    --cp-h2-size: 44px;  --cp-h2-lh: 1.20;
+    --cp-h3-size: 32px;  --cp-h3-lh: 1.30;
+    --cp-h4-size: 24px;  --cp-h4-lh: 1.30;
+    --cp-h5-size: 20px;  --cp-h5-lh: 1.40;
+    --cp-h6-size: 18px;  --cp-h6-lh: 1.50;
+  }
+}
+
+/* =====================================================================
+   SEMANTIC CLASSES
+   ===================================================================== */
+
+.cp-h1, .cp-h2, .cp-h3, .cp-h4, .cp-h5, .cp-h6 {
+  font-family: var(--cp-font-display);
+  color: var(--cp-fg-1);
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.cp-h1 { font-size: var(--cp-h1-size); line-height: var(--cp-h1-lh); font-weight: var(--cp-w-bold); letter-spacing: -0.02em; }
+.cp-h2 { font-size: var(--cp-h2-size); line-height: var(--cp-h2-lh); font-weight: var(--cp-w-bold); letter-spacing: -0.02em; }
+.cp-h3 { font-size: var(--cp-h3-size); line-height: var(--cp-h3-lh); font-weight: var(--cp-w-bold); }
+.cp-h4 { font-size: var(--cp-h4-size); line-height: var(--cp-h4-lh); font-weight: var(--cp-w-semibold); }
+.cp-h5 { font-size: var(--cp-h5-size); line-height: var(--cp-h5-lh); font-weight: var(--cp-w-semibold); }
+.cp-h6 { font-size: var(--cp-h6-size); line-height: var(--cp-h6-lh); font-weight: var(--cp-w-semibold); }
+
+.cp-text-lg, .cp-text-md, .cp-text-rg, .cp-text-sm, .cp-text-xs {
+  font-family: var(--cp-font-body);
+  color: var(--cp-fg-1);
+  line-height: var(--cp-text-lh);
+}
+.cp-text-lg { font-size: var(--cp-text-lg-size); }
+.cp-text-md { font-size: var(--cp-text-md-size); }
+.cp-text-rg { font-size: var(--cp-text-rg-size); }
+.cp-text-sm { font-size: var(--cp-text-sm-size); }
+.cp-text-xs { font-size: var(--cp-text-xs-size); }
+
+.cp-tagline {
+  font-family: var(--cp-font-body);
+  font-size: var(--cp-tagline-size);
+  letter-spacing: var(--cp-tagline-tracking);
+  font-weight: var(--cp-w-medium);
+  text-transform: none;
+  color: var(--cp-fg-2);
+}
+
+.cp-w-light    { font-weight: var(--cp-w-light); }
+.cp-w-normal   { font-weight: var(--cp-w-normal); }
+.cp-w-medium   { font-weight: var(--cp-w-medium); }
+.cp-w-semibold { font-weight: var(--cp-w-semibold); }
+.cp-w-bold     { font-weight: var(--cp-w-bold); }
+.cp-w-extrabold{ font-weight: var(--cp-w-extrabold); }
+
+.cp-mono { font-family: var(--cp-font-mono); }
+
+/* Lucide icon base style — sizes the SVG and applies stroke conventions.
+   Use either as a placeholder before replacement <i class="cp-icon" data-lucide="play">
+   or directly on an inline <svg class="cp-icon">. After lucide.createIcons() runs,
+   the <i> is replaced by a <svg> that inherits this class. */
+.cp-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  color: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+svg.cp-icon { fill: none; stroke: currentColor; stroke-width: 1.5; }
+.cp-icon > svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.cp-icon--sm { width: 16px; height: 16px; stroke-width: 1.75; }
+.cp-icon--sm > svg, svg.cp-icon--sm { stroke-width: 1.75; }
+.cp-icon--lg { width: 32px; height: 32px; stroke-width: 1.5; }
+.cp-icon--lg > svg, svg.cp-icon--lg { stroke-width: 1.5; }
+.cp-icon--xl { width: 48px; height: 48px; stroke-width: 1.25; }
+.cp-icon--xl > svg, svg.cp-icon--xl { stroke-width: 1.25; }
+
+/* Body baseline */
+body.cp-body {
+  font-family: var(--cp-font-body);
+  font-size: var(--cp-text-rg-size);
+  line-height: var(--cp-text-lh);
+  color: var(--cp-fg-1);
+  background: var(--cp-bg-canvas);
+  -webkit-font-smoothing: antialiased;
+}
