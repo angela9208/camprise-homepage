@@ -30,14 +30,16 @@
     margin-top: 24px;
   }
   .nav {
+    position: relative;
     max-width: 1175px; margin: 0 auto;
-    height: 58px; border-radius: 9999px;
+    min-height: 58px; border-radius: 9999px;
     background: rgba(255,255,255,0.7);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(15, 17, 31, 0.12);
     box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 6px 24px -12px rgba(31, 54, 117, 0.15);
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 14px 0 24px;
+    gap: 12px;
   }
   .brand {
     display: flex; align-items: center; gap: 10px;
@@ -46,6 +48,7 @@
     font-size: 20px;
     color: var(--cp-night);
     letter-spacing: -0.01em;
+    flex-shrink: 0;
   }
   .brand-mark {
     width: 26px; height: 26px;
@@ -76,10 +79,56 @@
     background: var(--cp-night); color: #fff;
     border-radius: 9999px; font-weight: 600; font-size: 14px;
     transition: background .16s var(--cp-ease);
+    white-space: nowrap; flex-shrink: 0;
   }
   .nav-cta:hover { background: var(--cp-night-700); }
+
+  .nav-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
+  .nav-toggle {
+    display: none;
+    width: 36px; height: 36px;
+    align-items: center; justify-content: center;
+    flex-shrink: 0; cursor: pointer;
+  }
+  .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
+    content: ""; display: block;
+    width: 18px; height: 2px;
+    background: var(--cp-night);
+    border-radius: 2px;
+    position: relative;
+    transition: transform .18s var(--cp-ease), opacity .18s var(--cp-ease);
+  }
+  .nav-toggle span::before { position: absolute; top: -6px; }
+  .nav-toggle span::after { position: absolute; top: 6px; }
+  .nav-toggle-input:checked ~ .nav-toggle span { background: transparent; }
+  .nav-toggle-input:checked ~ .nav-toggle span::before { top: 0; transform: rotate(45deg); }
+  .nav-toggle-input:checked ~ .nav-toggle span::after { top: 0; transform: rotate(-45deg); }
+
   @media (max-width: 880px) {
-    .nav-links { display: none; }
+    .nav-outer { padding: 0 20px; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0; right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+      background: #fff;
+      border: 1px solid var(--cp-mist);
+      border-radius: 20px;
+      padding: 10px;
+      box-shadow: 0 20px 40px -20px rgba(31, 54, 117, 0.3);
+    }
+    .nav-links a { padding: 12px 14px; border-radius: 12px; }
+    .nav-links a:hover { background: var(--cp-cream); }
+    .nav-toggle { display: flex; }
+    .nav-toggle-input:checked ~ .nav-links { display: flex; }
+  }
+  @media (max-width: 420px) {
+    .nav-outer { padding: 0 12px; }
+    .brand-logo { height: 22px; }
+    .nav-cta { padding: 0 14px; font-size: 13px; height: 36px; }
   }
 
   /* ---------- buttons ---------- */
@@ -218,7 +267,14 @@
   @media (max-width: 980px) {
     .hero-inner { grid-template-columns: 1fr; gap: 48px; }
     .hero { padding: 140px 0 80px; }
-    .hero-visual { aspect-ratio: 1.4 / 1; max-width: 520px; }
+    .hero-visual {
+      position: static; aspect-ratio: auto; max-width: 100%;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .hero-card, .hero-card--main, .hero-card--badge, .hero-card--mini {
+      position: static; top: auto; left: auto; right: auto; bottom: auto;
+      width: 100%; height: auto;
+    }
   }
 
   /* ---------- SECTION: Future of work ---------- */
@@ -553,14 +609,15 @@
     position: relative;
     display: grid; grid-template-rows: auto 1fr; gap: 16px;
   }
-  .ps-head { display: flex; align-items: center; justify-content: space-between; }
-  .ps-tabs { display: flex; gap: 4px; }
+  .ps-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .ps-tabs { display: flex; flex-wrap: wrap; gap: 4px; }
   .ps-tab {
     font-size: 13px; padding: 8px 14px; border-radius: 9999px;
     color: var(--cp-fg-3); font-weight: 600;
+    white-space: nowrap;
   }
   .ps-tab.active { background: var(--cp-night); color: #fff; }
-  .ps-actions { display: flex; gap: 8px; }
+  .ps-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .ps-action {
     width: 32px; height: 32px; border-radius: 8px;
     background: #fff; border: 1px solid var(--cp-mist);
@@ -570,7 +627,8 @@
   .ps-action svg { width: 16px; height: 16px; stroke: currentColor; stroke-width: 1.8; fill: none; }
 
   .ps-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+    min-width: 0;
   }
   .ps-tile {
     background: #fff;
@@ -579,6 +637,7 @@
     padding: 18px;
     display: flex; flex-direction: column; gap: 10px;
     min-height: 130px;
+    min-width: 0;
   }
   .ps-tile-head { display: flex; align-items: center; justify-content: space-between; }
   .ps-tile-title { font-weight: 700; color: var(--cp-night); font-size: 14px; display: flex; align-items: center; gap: 8px; }
@@ -603,6 +662,11 @@
     .product-card { grid-template-columns: 1fr; }
     .product-text { padding: 40px; }
     .product-screen { border-left: 0; border-top: 1px solid var(--cp-mist); padding: 24px; }
+  }
+  @media (max-width: 560px) {
+    .product-text { padding: 28px; }
+    .product-screen { padding: 16px; }
+    .ps-grid { grid-template-columns: 1fr; }
   }
 
   /* ---------- SECTION: FAQ ---------- */
@@ -719,6 +783,7 @@
     <a class="brand" href="#" aria-label="Camprise">
       <img class="brand-logo" src="uploads/camprise-logo-transparent.png" alt="Camprise">
     </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
     <div class="nav-links">
       <a href="#product">Product</a>
       <a href="#governance">Governance</a>
@@ -727,6 +792,7 @@
       <a href="#cta">Pricing</a>
     </div>
     <a class="nav-cta" href="#cta">Get a demo</a>
+    <label for="nav-toggle" class="nav-toggle" aria-label="Toggle menu"><span></span></label>
   </nav>
 </div>
 
