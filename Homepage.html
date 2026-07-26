@@ -23,6 +23,42 @@
   .wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
   @media (max-width: 720px) { .wrap { padding: 0 24px; } }
 
+  /* ---------- motion ---------- */
+  @keyframes cp-fade-up { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: blur(0); } }
+  @keyframes cp-ring-pulse { 0%, 100% { box-shadow: 0 0 0 4px var(--ring-c); } 50% { box-shadow: 0 0 0 8px var(--ring-c); } }
+  @keyframes cp-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes cp-grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes cp-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .reveal {
+    opacity: 0; transform: translateY(18px); filter: blur(4px);
+    transition: opacity .6s var(--cp-ease), transform .6s var(--cp-ease), filter .6s var(--cp-ease);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .reveal.is-visible { opacity: 1; transform: none; filter: blur(0); }
+  .three-col .feature:nth-child(2) { --reveal-delay: .1s; }
+  .three-col .feature:nth-child(3) { --reveal-delay: .2s; }
+  .bento .card:nth-child(2) { --reveal-delay: .08s; }
+  .bento .card:nth-child(3) { --reveal-delay: .16s; }
+  .bento .card:nth-child(4) { --reveal-delay: .24s; }
+  .bento .card:nth-child(5) { --reveal-delay: .32s; }
+  .stats-row .stat:nth-child(2) { --reveal-delay: .12s; }
+  .stats-row .stat:nth-child(3) { --reveal-delay: .24s; }
+  .faq-list .faq:nth-child(2) { --reveal-delay: .06s; }
+  .faq-list .faq:nth-child(3) { --reveal-delay: .12s; }
+  .faq-list .faq:nth-child(4) { --reveal-delay: .18s; }
+  .faq-list .faq:nth-child(5) { --reveal-delay: .24s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1; transform: none; filter: blur(0); }
+  }
+
   /* ---------- nav ---------- */
   .nav-outer {
     position: sticky; top: 16px; z-index: 50;
@@ -71,18 +107,25 @@
     color: var(--cp-fg-1);
     font-weight: 500;
   }
-  .nav-links a { transition: color .16s var(--cp-ease); }
+  .nav-links a { position: relative; transition: color .16s var(--cp-ease); }
   .nav-links a:hover { color: var(--cp-link); }
-  .nav-links a.active { color: var(--cp-night); font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+  .nav-links a::after {
+    content: ""; position: absolute; left: 2px; right: 2px; bottom: -5px; height: 2px;
+    background: var(--cp-night); border-radius: 2px;
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s var(--cp-ease);
+  }
+  .nav-links a.active { color: var(--cp-night); font-weight: 700; }
+  .nav-links a.active::after { transform: scaleX(1); }
   .nav-cta {
     display: inline-flex; align-items: center; gap: 6px;
     height: 40px; padding: 0 18px;
     background: var(--cp-night); color: #fff;
     border-radius: 9999px; font-weight: 600; font-size: 14px;
-    transition: background .16s var(--cp-ease);
+    transition: background .16s var(--cp-ease), transform .16s var(--cp-ease);
     white-space: nowrap; flex-shrink: 0;
   }
-  .nav-cta:hover { background: var(--cp-night-700); }
+  .nav-cta:hover { background: var(--cp-night-700); transform: translateY(-1px); }
 
   .nav-toggle-input { position: absolute; opacity: 0; pointer-events: none; }
   .nav-toggle {
@@ -156,12 +199,13 @@
     border-radius: 9999px;
     font-family: var(--cp-font-body);
     font-weight: 700; font-size: 15px;
-    transition: transform .08s var(--cp-ease), background .16s var(--cp-ease), color .16s var(--cp-ease), border-color .16s var(--cp-ease);
+    transition: transform .18s var(--cp-ease), background .16s var(--cp-ease), color .16s var(--cp-ease), border-color .16s var(--cp-ease), box-shadow .18s var(--cp-ease);
     white-space: nowrap;
   }
+  .btn:hover { transform: translateY(-2px); }
   .btn:active { transform: scale(0.98); }
   .btn-coral { background: #FC5B46; color: #fff; box-shadow: 0 6px 18px -8px rgba(252, 91, 70, 0.55); }
-  .btn-coral:hover { background: #FD6E5B; }
+  .btn-coral:hover { background: #FD6E5B; box-shadow: 0 10px 24px -8px rgba(252, 91, 70, 0.6); }
   .btn-outline {
     background: transparent; color: var(--cp-night);
     border: 1.5px solid var(--cp-night);
@@ -235,6 +279,10 @@
   .hero-card--main { top: 8%; left: 4%; width: 78%; height: 64%; }
   .hero-card--badge { top: 56%; right: 0; width: 60%; padding: 14px 18px; }
   .hero-card--mini { bottom: 0; left: 14%; width: 52%; padding: 14px 18px; }
+  @media (min-width: 981px) {
+    .hero-card--badge { animation: cp-float 5s ease-in-out infinite; }
+    .hero-card--mini { animation: cp-float 6.5s ease-in-out infinite; animation-delay: -2s; }
+  }
 
   .hc-head {
     display: flex; align-items: center; justify-content: space-between;
@@ -246,7 +294,7 @@
     font-weight: 700; font-size: 14px;
     color: var(--cp-night);
   }
-  .hc-dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--cp-status-success); box-shadow: 0 0 0 4px rgba(31, 138, 91, 0.15); }
+  .hc-dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--cp-status-success); --ring-c: rgba(31, 138, 91, 0.15); animation: cp-ring-pulse 2s ease-in-out infinite; }
   .hc-pill { font-size: 11px; color: var(--cp-fg-3); background: var(--cp-mist-50); border-radius: 9999px; padding: 4px 10px; font-weight: 600; }
 
   .hc-rows { display: grid; gap: 8px; }
@@ -274,13 +322,16 @@
   }
   .hc-badge-lbl { font-size: 11px; color: var(--cp-fg-3); text-transform: none; }
   .hc-spark { display: flex; align-items: end; gap: 3px; height: 28px; }
-  .hc-spark span { width: 5px; background: var(--cp-night); border-radius: 1px; }
-  .hc-spark span:nth-child(1) { height: 30%; }
-  .hc-spark span:nth-child(2) { height: 55%; }
-  .hc-spark span:nth-child(3) { height: 40%; }
-  .hc-spark span:nth-child(4) { height: 70%; background: #FC5B46; }
-  .hc-spark span:nth-child(5) { height: 85%; background: var(--cp-golden); }
-  .hc-spark span:nth-child(6) { height: 95%; background: var(--cp-golden); }
+  .hc-spark span {
+    width: 5px; background: var(--cp-night); border-radius: 1px;
+    transform-origin: bottom; animation: cp-grow-y .5s var(--cp-ease) both;
+  }
+  .hc-spark span:nth-child(1) { height: 30%; animation-delay: .05s; }
+  .hc-spark span:nth-child(2) { height: 55%; animation-delay: .1s; }
+  .hc-spark span:nth-child(3) { height: 40%; animation-delay: .15s; }
+  .hc-spark span:nth-child(4) { height: 70%; background: #FC5B46; animation-delay: .2s; }
+  .hc-spark span:nth-child(5) { height: 85%; background: var(--cp-golden); animation-delay: .25s; }
+  .hc-spark span:nth-child(6) { height: 95%; background: var(--cp-golden); animation-delay: .3s; }
 
   @media (max-width: 980px) {
     .hero-inner { grid-template-columns: 1fr; gap: 48px; }
@@ -492,15 +543,18 @@
     border-radius: 3px 3px 0 0;
     background: linear-gradient(180deg, var(--cp-sky), var(--cp-night));
     opacity: 0.85;
+    transform-origin: bottom; transform: scaleY(0);
+    transition: transform .5s var(--cp-ease);
   }
-  .dash-chart span:nth-child(1){height:30%}
-  .dash-chart span:nth-child(2){height:48%}
-  .dash-chart span:nth-child(3){height:38%}
-  .dash-chart span:nth-child(4){height:62%}
-  .dash-chart span:nth-child(5){height:55%}
-  .dash-chart span:nth-child(6){height:78%}
-  .dash-chart span:nth-child(7){height:70%; background: linear-gradient(180deg, #FC5B46, #C44434);}
-  .dash-chart span:nth-child(8){height:88%; background: linear-gradient(180deg, var(--cp-golden), #C99A2F);}
+  .card.is-visible .dash-chart span { transform: scaleY(1); }
+  .dash-chart span:nth-child(1){height:30%; transition-delay: .05s;}
+  .dash-chart span:nth-child(2){height:48%; transition-delay: .1s;}
+  .dash-chart span:nth-child(3){height:38%; transition-delay: .15s;}
+  .dash-chart span:nth-child(4){height:62%; transition-delay: .2s;}
+  .dash-chart span:nth-child(5){height:55%; transition-delay: .25s;}
+  .dash-chart span:nth-child(6){height:78%; transition-delay: .3s;}
+  .dash-chart span:nth-child(7){height:70%; background: linear-gradient(180deg, #FC5B46, #C44434); transition-delay: .35s;}
+  .dash-chart span:nth-child(8){height:88%; background: linear-gradient(180deg, var(--cp-golden), #C99A2F); transition-delay: .4s;}
 
   /* governance card art */
   .art-gov { flex: 1; margin-top: 20px; display: grid; gap: 8px; }
@@ -661,7 +715,7 @@
   .ps-tile-title { font-weight: 700; color: var(--cp-night); font-size: 14px; display: flex; align-items: center; gap: 8px; }
   .ps-tile-title::before { content: ""; width: 8px; height: 8px; border-radius: 9999px; background: var(--cp-status-success); }
   .ps-tile.idle .ps-tile-title::before { background: var(--cp-fg-disabled); }
-  .ps-tile.run .ps-tile-title::before { background: var(--cp-golden); box-shadow: 0 0 0 4px rgba(243, 215, 138, 0.3); }
+  .ps-tile.run .ps-tile-title::before { background: var(--cp-golden); --ring-c: rgba(243, 215, 138, 0.3); animation: cp-ring-pulse 2.2s ease-in-out infinite; }
   .ps-tile-meta { font-family: var(--cp-font-mono); font-size: 11px; color: var(--cp-fg-3); }
   .ps-tile p { font-size: 12px; color: var(--cp-fg-3); margin: 0; line-height: 1.4; }
   .ps-tile-foot { display: flex; gap: 6px; align-items: center; margin-top: auto; font-size: 11px; color: var(--cp-fg-3); font-family: var(--cp-font-mono); }
@@ -725,6 +779,8 @@
     color: var(--cp-fg-2);
     font-size: 16px; line-height: 1.6;
     max-width: 70ch;
+    overflow: hidden;
+    transition: height .28s var(--cp-ease);
   }
 
   /* ---------- CTA footer ---------- */
@@ -866,26 +922,26 @@
 <!-- ============ FUTURE OF WORK ============ -->
 <section class="sect-future" id="product">
   <div class="wrap">
-    <div class="sect-head">
+    <div class="sect-head reveal">
       <h2>The future of work has arrived</h2>
       <p>A centrally-governed, cross-functional AI workforce managed by your workforce.</p>
     </div>
     <div class="three-col">
-      <div class="feature">
+      <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/><circle cx="12" cy="12" r="9"/></svg>
         </div>
         <h3>Customized by your functional experts without the code</h3>
         <p>Finance, HR, RevOps — anyone — describes the job in plain language. Camprise turns it into an agent your team can review, run, and refine.</p>
       </div>
-      <div class="feature">
+      <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M5 12h14M5 6h14M5 18h14"/><path d="M9 6l-2 6 2 6"/></svg>
         </div>
         <h3>Automating the grunt work to increase productivity and happiness</h3>
         <p>Reconciliations, vendor onboarding, ticket triage, scheduled reports — handed off to agents that work alongside the tools your team already uses.</p>
       </div>
-      <div class="feature">
+      <div class="feature reveal">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
         </div>
@@ -899,13 +955,13 @@
 <!-- ============ YOUR WORKFORCE RUNS IT (bento) ============ -->
 <section class="sect-rules" id="governance">
   <div class="wrap">
-    <div class="sect-head">
+    <div class="sect-head reveal">
       <h2>Your workforce runs it.<br>Your rules govern it.</h2>
     </div>
 
     <div class="bento">
       <!-- wide top card -->
-      <article class="card card-wide">
+      <article class="card card-wide reveal">
         <h3>Designing each agent without writing code</h3>
         <p>Describe an outcome — Camprise turns it into a sequence of policy-checked steps your team can review, test, and ship.</p>
         <div class="card-art">
@@ -946,7 +1002,7 @@
       </article>
 
       <!-- Navy card -->
-      <article class="card card-dark">
+      <article class="card card-dark reveal">
         <h3>Customizing each agent's intended actions</h3>
         <p>Give an agent the exact tools, data sources, and approvers it needs — nothing more.</p>
         <div class="art-runner">
@@ -959,7 +1015,7 @@
       </article>
 
       <!-- White cards -->
-      <article class="card">
+      <article class="card reveal">
         <h3>Providing leadership with real-time oversight and operational insights</h3>
         <p>One pane of glass for every agent run — across every function — with the same drill-down everywhere.</p>
         <div class="art-dash">
@@ -974,7 +1030,7 @@
         </div>
       </article>
 
-      <article class="card">
+      <article class="card reveal">
         <h3>Ensuring that processes and data-sharing follow your policies</h3>
         <p>Every read, write, and outbound call is checked against the policies your security team has already approved.</p>
         <div class="art-gov">
@@ -997,7 +1053,7 @@
         </div>
       </article>
 
-      <article class="card">
+      <article class="card reveal">
         <h3>Connecting to the tools your team already uses</h3>
         <p>Native integrations for the systems most enterprises run on — OAuth-scoped, logged, and reversible.</p>
         <div class="art-int">
@@ -1026,19 +1082,19 @@
 <!-- ============ STATS ============ -->
 <section class="sect-stats" id="stats">
   <div class="wrap">
-    <div class="sect-head">
+    <div class="sect-head reveal">
       <h2>Empower your employees,<br>not other people's AI models</h2>
     </div>
     <div class="stats-row">
-      <div class="stat">
+      <div class="stat reveal">
         <div class="n">74%</div>
         <div class="l">of value captured last year by the top 20% of AI-enabled European companies</div>
       </div>
-      <div class="stat">
+      <div class="stat reveal">
         <div class="n">50%</div>
         <div class="l">of European employees use AI tools at work without authorization</div>
       </div>
-      <div class="stat">
+      <div class="stat reveal">
         <div class="n">86%</div>
         <div class="l">of enterprise AI pilots never reach production</div>
       </div>
@@ -1049,7 +1105,7 @@
 <!-- ============ PRODUCT FEATURE CARD ============ -->
 <section class="sect-product">
   <div class="wrap">
-    <div class="product-card">
+    <div class="product-card reveal">
       <div class="product-text">
         <div class="product-eyebrow">Camprise Basecamp</div>
         <h2>The control room for your AI workforce</h2>
@@ -1137,27 +1193,27 @@
 <!-- ============ FAQ ============ -->
 <section class="sect-faq" id="faq">
   <div class="wrap">
-    <div class="sect-head">
+    <div class="sect-head reveal">
       <h2>Common questions</h2>
     </div>
     <div class="faq-list">
-      <details class="faq">
+      <details class="faq reveal">
         <summary>How does Camprise connect to the tools we already use?</summary>
         <div class="faq-body">Camprise ships with native integrations for the systems most enterprises run on — Slack, Microsoft 365, NetSuite, Salesforce, Workday, Jira, GitHub, Snowflake, and more. Each integration is OAuth-scoped to exactly the read and write permissions your IT team approves, and every call is logged.</div>
       </details>
-      <details class="faq" open>
+      <details class="faq reveal" open>
         <summary>What is the implementation timeline?</summary>
         <div class="faq-body">Most teams ship their first production agent within two weeks. A typical rollout looks like: week one, your platform admin connects core systems and imports policies; week two, a functional lead designs and pilots the first agent end-to-end. From there, new agents take hours, not weeks.</div>
       </details>
-      <details class="faq">
+      <details class="faq reveal">
         <summary>How do we keep our data inside our own perimeter?</summary>
         <div class="faq-body">Camprise runs in your cloud or in our SOC 2-audited environment, your choice. Agents never train on your data, and every action they take is policy-checked at runtime against the rules your security team has signed off on.</div>
       </details>
-      <details class="faq">
+      <details class="faq reveal">
         <summary>Who in our company should own this?</summary>
         <div class="faq-body">A small platform team owns the connections, policies, and audit log. Functional leaders own their own agents. Camprise is built so the people closest to the work design the agents — not a central AI team.</div>
       </details>
-      <details class="faq">
+      <details class="faq reveal">
         <summary>How is Camprise priced?</summary>
         <div class="faq-body">Per seat for designers and approvers, plus usage-based pricing on agent runs. We publish a transparent rate card and offer annual commitments with predictable ceilings.</div>
       </details>
@@ -1222,6 +1278,79 @@
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
   sections.forEach(function (s) { observer.observe(s); });
+})();
+
+// Fade/slide/blur elements in as they scroll into view.
+(function () {
+  var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if (!reveals.length) return;
+  if (!('IntersectionObserver' in window)) {
+    reveals.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var revealObserver = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+  reveals.forEach(function (el) { revealObserver.observe(el); });
+})();
+
+// Smoothly animate the FAQ accordion's open/close height instead of the
+// instant native <details> toggle, while keeping native keyboard/a11y behavior.
+(function () {
+  var faqs = Array.prototype.slice.call(document.querySelectorAll('.faq'));
+  if (!faqs.length) return;
+
+  faqs.forEach(function (faq) {
+    var summary = faq.querySelector('summary');
+    var body = faq.querySelector('.faq-body');
+    if (!summary || !body) return;
+
+    summary.addEventListener('click', function (e) {
+      if (faq.hasAttribute('data-animating')) { e.preventDefault(); return; }
+      e.preventDefault();
+      faq.hasAttribute('open') ? closeFaq() : openFaq();
+    });
+
+    function settle(onDone) {
+      var done = false;
+      var finish = function () { if (done) return; done = true; onDone(); };
+      body.addEventListener('transitionend', function onEnd(ev) {
+        if (ev.propertyName !== 'height') return;
+        body.removeEventListener('transitionend', onEnd);
+        finish();
+      });
+      setTimeout(finish, 400); // fallback in case transitionend doesn't fire
+    }
+
+    function openFaq() {
+      faq.setAttribute('open', '');
+      faq.setAttribute('data-animating', '');
+      var target = body.scrollHeight;
+      body.style.height = '0px';
+      body.getBoundingClientRect(); // force a reflow so the 0px start value is committed
+      body.style.height = target + 'px';
+      settle(function () {
+        body.style.height = '';
+        faq.removeAttribute('data-animating');
+      });
+    }
+
+    function closeFaq() {
+      faq.setAttribute('data-animating', '');
+      body.style.height = body.scrollHeight + 'px';
+      body.getBoundingClientRect(); // force a reflow so the start height is committed
+      body.style.height = '0px';
+      settle(function () {
+        faq.removeAttribute('open');
+        body.style.height = '';
+        faq.removeAttribute('data-animating');
+      });
+    }
+  });
 })();
 </script>
 
