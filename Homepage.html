@@ -38,6 +38,7 @@
   .reveal.is-visible { opacity: 1; transform: none; filter: blur(0); }
   .three-col .feature:nth-child(2) { --reveal-delay: .1s; }
   .three-col .feature:nth-child(3) { --reveal-delay: .2s; }
+  .three-col .feature:nth-child(4) { --reveal-delay: .3s; }
   .bento .card:nth-child(2) { --reveal-delay: .08s; }
   .bento .card:nth-child(3) { --reveal-delay: .16s; }
   .bento .card:nth-child(4) { --reveal-delay: .24s; }
@@ -369,8 +370,8 @@
     max-width: 560px;
   }
   .three-col {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 48px;
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 48px 56px;
   }
   @media (max-width: 880px) { .three-col { grid-template-columns: 1fr; gap: 36px; } }
 
@@ -947,6 +948,13 @@
         </div>
         <h3>Implemented in a policy-driven, compliant environment</h3>
         <p>Every action an agent takes is logged, scoped to the data you allow, and bound by the rules your security and legal teams have already approved.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+        </div>
+        <h3>Bring your company's knowledge, documents, and data together in one place.</h3>
+        <p>Minimise delays and maximise collaboration by giving your workforce instant access to trusted information whenever they need it.</p>
       </div>
     </div>
   </div>
