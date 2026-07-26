@@ -30,12 +30,20 @@
   @keyframes cp-grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
   @keyframes cp-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-  .reveal {
+  /* Reveal-on-scroll is progressive enhancement ONLY. Content is visible by
+     default; the hidden start state is applied solely when the inline script in
+     <head> has confirmed animation is safe (it adds .cp-anim to <html>). Never
+     gate content visibility on JS alone — if the observer never fires, the page
+     must still read normally. */
+  .cp-anim .reveal {
     opacity: 0; transform: translateY(18px); filter: blur(4px);
     transition: opacity .6s var(--cp-ease), transform .6s var(--cp-ease), filter .6s var(--cp-ease);
     transition-delay: var(--reveal-delay, 0s);
   }
-  .reveal.is-visible { opacity: 1; transform: none; filter: blur(0); }
+  .cp-anim .reveal.is-visible { opacity: 1; transform: none; filter: blur(0); }
+  @media print {
+    .reveal, .cp-anim .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+  }
   .three-col .feature:nth-child(2) { --reveal-delay: .1s; }
   .three-col .feature:nth-child(3) { --reveal-delay: .2s; }
   .three-col .feature:nth-child(4) { --reveal-delay: .3s; }
@@ -57,7 +65,8 @@
       transition-duration: 0.001ms !important;
       scroll-behavior: auto !important;
     }
-    .reveal { opacity: 1; transform: none; filter: blur(0); }
+    .reveal, .cp-anim .reveal { opacity: 1 !important; transform: none !important; filter: blur(0) !important; }
+    .dash-chart span, .card.is-visible .dash-chart span { transform: scaleY(1) !important; }
   }
 
   /* ---------- nav ---------- */
@@ -544,10 +553,13 @@
     border-radius: 3px 3px 0 0;
     background: linear-gradient(180deg, var(--cp-sky), var(--cp-night));
     opacity: 0.85;
-    transform-origin: bottom; transform: scaleY(0);
+    transform-origin: bottom;
     transition: transform .5s var(--cp-ease);
   }
-  .card.is-visible .dash-chart span { transform: scaleY(1); }
+  /* Bars only start collapsed when animation is confirmed safe, so they never
+     stay invisible if the reveal observer never runs. */
+  .cp-anim .dash-chart span { transform: scaleY(0); }
+  .cp-anim .card.is-visible .dash-chart span { transform: scaleY(1); }
   .dash-chart span:nth-child(1){height:30%; transition-delay: .05s;}
   .dash-chart span:nth-child(2){height:48%; transition-delay: .1s;}
   .dash-chart span:nth-child(3){height:38%; transition-delay: .15s;}
@@ -849,6 +861,20 @@
   }
 
 </style>
+<script>
+// Opt in to scroll-reveal animation ONLY when it can actually finish, so content
+// is never left invisible. Runs before <body> paints to avoid a flash.
+(function () {
+  try {
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // document.hidden => IntersectionObserver callbacks are throttled/paused by
+    // the browser, so the reveal would never fire and content would stay blank.
+    if ('IntersectionObserver' in window && !reduced && !document.hidden) {
+      document.documentElement.className += ' cp-anim';
+    }
+  } catch (e) { /* leave content visible */ }
+})();
+</script>
 </head>
 <body>
 
@@ -1289,21 +1315,52 @@
 })();
 
 // Fade/slide/blur elements in as they scroll into view.
+// Content is visible by default (see .cp-anim in the stylesheet); this only adds
+// the animation. Every failure path falls back to showing everything.
 (function () {
   var reveals = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
   if (!reveals.length) return;
-  if (!('IntersectionObserver' in window)) {
+
+  function revealAll() {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
-    return;
   }
-  var revealObserver = new IntersectionObserver(function (entries, obs) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
-      obs.unobserve(entry.target);
+
+  try {
+    if (!('IntersectionObserver' in window)) { revealAll(); return; }
+
+    // Anything already at or above the fold is revealed synchronously right
+    // now, so above-the-fold content never waits on an observer callback.
+    var pending = reveals.filter(function (el) {
+      var top = el.getBoundingClientRect().top;
+      if (top < (window.innerHeight || 0)) { el.classList.add('is-visible'); return false; }
+      return true;
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
-  reveals.forEach(function (el) { revealObserver.observe(el); });
+
+    var revealObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    pending.forEach(function (el) { revealObserver.observe(el); });
+
+    // If the tab gets backgrounded the observer is paused, so reveal everything
+    // rather than risk leaving content invisible when the user returns.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) revealAll();
+    });
+    // Backstop for a wedged observer: on the first scroll, sweep anything that
+    // is now in view but still hidden.
+    window.addEventListener('scroll', function () {
+      pending.forEach(function (el) {
+        if (el.classList.contains('is-visible')) return;
+        if (el.getBoundingClientRect().top < (window.innerHeight || 0)) el.classList.add('is-visible');
+      });
+    }, { passive: true });
+  } catch (e) {
+    revealAll();
+  }
 })();
 
 // Smoothly animate the FAQ accordion's open/close height instead of the
