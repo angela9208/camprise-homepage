@@ -604,15 +604,15 @@
   }
   .int-app small { display: block; font-weight: 400; color: var(--cp-fg-3); font-size: 11px; margin-top: 2px; }
   .int-logo {
-    width: 28px; height: 28px; border-radius: 7px;
+    width: 28px; height: 28px;
     display: grid; place-items: center;
-    font-family: var(--cp-font-display); font-weight: 700; font-size: 11px;
-    color: #fff; flex-shrink: 0;
+    flex-shrink: 0;
   }
-  .int-logo.s { background: #4A154B; }
-  .int-logo.n { background: #1F3675; }
-  .int-logo.sf { background: #00A1E0; font-size: 9px; }
-  .int-logo.j { background: #2684FF; }
+  .int-logo img {
+    max-width: 100%; max-height: 100%;
+    width: auto; height: auto;
+    object-fit: contain;
+  }
   .int-conn {
     font-family: var(--cp-font-mono); font-size: 11px;
     padding: 3px 10px; border-radius: 9999px;
@@ -1092,19 +1092,19 @@
         <p>Native integrations for the systems most enterprises run on — OAuth-scoped, logged, and reversible.</p>
         <div class="art-int">
           <div class="int-row">
-            <div class="int-app"><span class="int-logo s">S</span><div><div>Slack</div><small>messaging</small></div></div>
+            <div class="int-app"><span class="int-logo"><img src="uploads/logo-slack.png" alt="" width="28" height="28"></span><div><div>Slack</div><small>messaging</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo n">N</span><div><div>NetSuite</div><small>finance, ERP</small></div></div>
+            <div class="int-app"><span class="int-logo"><img src="uploads/logo-netsuite.svg" alt="" width="28" height="28"></span><div><div>NetSuite</div><small>finance, ERP</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo sf">SF</span><div><div>Salesforce</div><small>RevOps</small></div></div>
+            <div class="int-app"><span class="int-logo"><img src="uploads/logo-salesforce.png" alt="" width="28" height="28"></span><div><div>Salesforce</div><small>RevOps</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo j">J</span><div><div>Jira</div><small>support, eng</small></div></div>
+            <div class="int-app"><span class="int-logo"><img src="uploads/logo-jira.png" alt="" width="28" height="28"></span><div><div>Jira</div><small>support, eng</small></div></div>
             <div class="int-conn pending">Authorize</div>
           </div>
         </div>
