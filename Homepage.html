@@ -603,22 +603,16 @@
     font-size: 13px; color: var(--cp-night); font-weight: 600;
   }
   .int-app small { display: block; font-weight: 400; color: var(--cp-fg-3); font-size: 11px; margin-top: 2px; }
-  /* Vendor logos sit on a neutral tile so each brand keeps its own colours. */
   .int-logo {
     width: 28px; height: 28px; border-radius: 7px;
     display: grid; place-items: center;
-    background: #fff;
-    border: 1px solid var(--cp-mist);
-    flex-shrink: 0;
-    overflow: hidden;
+    font-family: var(--cp-font-display); font-weight: 700; font-size: 11px;
+    color: #fff; flex-shrink: 0;
   }
-  .int-logo svg { width: 17px; height: 17px; display: block; }
-  .int-logo .int-wordmark {
-    font-family: var(--cp-font-display);
-    font-weight: 800; font-size: 8.5px; letter-spacing: -0.02em;
-    color: #C74634; /* Oracle brand red */
-    line-height: 1;
-  }
+  .int-logo.s { background: #4A154B; }
+  .int-logo.n { background: #1F3675; }
+  .int-logo.sf { background: #00A1E0; font-size: 9px; }
+  .int-logo.j { background: #2684FF; }
   .int-conn {
     font-family: var(--cp-font-mono); font-size: 11px;
     padding: 3px 10px; border-radius: 9999px;
@@ -1098,19 +1092,19 @@
         <p>Native integrations for the systems most enterprises run on — OAuth-scoped, logged, and reversible.</p>
         <div class="art-int">
           <div class="int-row">
-            <div class="int-app"><span class="int-logo" aria-hidden="true"><svg viewBox="0 0 122.8 122.8" xmlns="http://www.w3.org/2000/svg"><path d="M25.8 77.6c0 7.1-5.8 12.9-12.9 12.9S0 84.7 0 77.6s5.8-12.9 12.9-12.9h12.9v12.9zm6.5 0c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9v32.3c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V77.6z" fill="#E01E5A"/><path d="M45.2 25.8c-7.1 0-12.9-5.8-12.9-12.9S38.1 0 45.2 0s12.9 5.8 12.9 12.9v12.9H45.2zm0 6.5c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H12.9C5.8 58.1 0 52.3 0 45.2s5.8-12.9 12.9-12.9h32.3z" fill="#36C5F0"/><path d="M97 45.2c0-7.1 5.8-12.9 12.9-12.9s12.9 5.8 12.9 12.9-5.8 12.9-12.9 12.9H97V45.2zm-6.5 0c0 7.1-5.8 12.9-12.9 12.9s-12.9-5.8-12.9-12.9V12.9C64.7 5.8 70.5 0 77.6 0s12.9 5.8 12.9 12.9v32.3z" fill="#2EB67D"/><path d="M77.6 97c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9-12.9-5.8-12.9-12.9V97h12.9zm0-6.5c-7.1 0-12.9-5.8-12.9-12.9s5.8-12.9 12.9-12.9h32.3c7.1 0 12.9 5.8 12.9 12.9s-5.8 12.9-12.9 12.9H77.6z" fill="#ECB22E"/></svg></span><div><div>Slack</div><small>messaging</small></div></div>
+            <div class="int-app"><span class="int-logo s">S</span><div><div>Slack</div><small>messaging</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo" aria-hidden="true"><span class="int-wordmark">NS</span></span><div><div>NetSuite</div><small>finance, ERP</small></div></div>
+            <div class="int-app"><span class="int-logo n">N</span><div><div>NetSuite</div><small>finance, ERP</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="#00A1E0"><circle cx="14" cy="9.8" r="5.2"/><circle cx="8" cy="12" r="4.4"/><circle cx="18.2" cy="13.4" r="4.2"/><circle cx="11" cy="13.8" r="4.6"/><rect x="4.8" y="12.4" width="15.2" height="5.6" rx="2.8"/></g></svg></span><div><div>Salesforce</div><small>RevOps</small></div></div>
+            <div class="int-app"><span class="int-logo sf">SF</span><div><div>Salesforce</div><small>RevOps</small></div></div>
             <div class="int-conn ok">Connected</div>
           </div>
           <div class="int-row">
-            <div class="int-app"><span class="int-logo" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#2684FF" d="M11.571 11.513H0a5.218 5.218 0 0 0 5.232 5.215h2.13v2.057A5.215 5.215 0 0 0 12.575 24V12.518a1.005 1.005 0 0 0-1.005-1.005zm5.723-5.756H5.736a5.215 5.215 0 0 0 5.215 5.214h2.129v2.058a5.218 5.218 0 0 0 5.215 5.214V6.758a1.001 1.001 0 0 0-1.001-1.001zM23.013 0H11.455a5.215 5.215 0 0 0 5.215 5.215h2.129v2.057A5.215 5.215 0 0 0 24 12.483V1.005A1.001 1.001 0 0 0 23.013 0Z"/></svg></span><div><div>Jira</div><small>support, eng</small></div></div>
+            <div class="int-app"><span class="int-logo j">J</span><div><div>Jira</div><small>support, eng</small></div></div>
             <div class="int-conn pending">Authorize</div>
           </div>
         </div>
